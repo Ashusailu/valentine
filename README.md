@@ -1,1 +1,168 @@
-# valentine
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine?</title>
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #ffe6eb, #fff0f5);
+      font-family: "Comic Sans MS", cursive;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      background: white;
+      padding: 40px 50px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+      z-index: 10;
+    }
+
+    h1 {
+      color: #ff4d6d;
+      margin-bottom: 25px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 12px 28px;
+      margin: 15px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    #yes {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    #no {
+      background: #adb5bd;
+      color: white;
+      position: absolute;
+    }
+
+    .cat {
+      position: absolute;
+      width: 100px;
+      animation: float 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Will you be Sailu’s Valentine? 💖🥺</h1>
+    <button id="yes" onclick="yesClick()">Yes 😻</button>
+    <button id="no">No 🙈</button>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    let noClicks = 0;
+
+    // Meow sound
+    const meowSound = new Audio(
+      "https://www.soundjay.com/animal/cat-meow-2.mp3"
+    );
+
+    // Background purring
+    const purrSound = new Audio(
+      "https://www.soundjay.com/animal/cat-purr-1.mp3"
+    );
+    purrSound.loop = true;
+    purrSound.volume = 0.3;
+    let purrStarted = false;
+
+    noBtn.addEventListener("click", () => {
+      noClicks++;
+
+      // Start purring after first interaction
+      if (!purrStarted) {
+        purrSound.play();
+        purrStarted = true;
+      }
+
+      // Meow sound
+      meowSound.currentTime = 0;
+      meowSound.play();
+
+      alert("Are you sure? 😏🐱");
+
+      moveNoButton();
+      addCats();
+    });
+
+    noBtn.addEventListener("mouseover", moveNoButton);
+
+    function moveNoButton() {
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 60);
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    function addCats() {
+      for (let i = 0; i < noClicks; i++) {
+        const cat = document.createElement("img");
+        cat.src = "https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif";
+        cat.className = "cat";
+        cat.style.left = Math.random() * 90 + "%";
+        cat.style.top = Math.random() * 90 + "%";
+        document.body.appendChild(cat);
+      }
+    }
+
+    function yesClick() {
+      purrSound.pause();
+      purrSound.currentTime = 0;
+
+      confetti({
+        particleCount: 250,
+        spread: 90,
+        origin: { y: 0.6 }
+      });
+
+      document.body.innerHTML = `
+        <div style="
+          height:100vh;
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          flex-direction:column;
+          text-align:center;
+          background:linear-gradient(135deg,#ffe6eb,#fff0f5);
+          font-family:'Comic Sans MS', cursive;
+        ">
+          <h1 style="color:#ff4d6d;font-size:40px;">
+            YAYYY 💖😻
+          </h1>
+          <p style="font-size:24px;">
+            Sailu just won a Valentine 🐾💘
+          </p>
+          <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif" width="220">
+        </div>
+      `;
+    }
+  </script>
+
+</body>
+</html>
