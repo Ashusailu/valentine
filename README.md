@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -50,7 +50,7 @@
     #no {
       background: #adb5bd;
       color: white;
-      position: absolute;
+      position: relative; /* stays clickable */
     }
 
     .cat {
@@ -95,29 +95,26 @@
     noBtn.addEventListener("click", () => {
       noClicks++;
 
-      // Start purring after first interaction
+      // Start purring on first click
       if (!purrStarted) {
         purrSound.play();
         purrStarted = true;
       }
 
-      // Meow sound
+      // Meow
       meowSound.currentTime = 0;
       meowSound.play();
 
       alert("Are you sure? 😏🐱");
 
-      moveNoButton();
       addCats();
+      nudgeNoButton();
     });
 
-    noBtn.addEventListener("mouseover", moveNoButton);
-
-    function moveNoButton() {
-      const x = Math.random() * (window.innerWidth - 120);
-      const y = Math.random() * (window.innerHeight - 60);
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+    function nudgeNoButton() {
+      const moveX = Math.random() * 40 - 20;
+      const moveY = Math.random() * 20 - 10;
+      noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
     }
 
     function addCats() {
@@ -156,7 +153,7 @@
             YAYYY 💖😻
           </h1>
           <p style="font-size:24px;">
-            Sailu just won a Valentine 🐾💘
+            You just won a Valentine 🐾💘
           </p>
           <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif" width="220">
         </div>
